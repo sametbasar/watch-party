@@ -1,0 +1,29 @@
+{
+  "name": "watch-party",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "dependencies": {
+    "@heroicons/react": "^2.0.18",
+    "@radix-ui/themes": "^1.1.2",
+    "socket.io": "^4.7.2",
+    "socket.io-client": "^4.7.2"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/prettier": "^3",
+    "@types/socket.io": "^3.0.2",
+    "tsconfig": "*",
+    "turbo": "latest",
+    "typescript": "latest"
+  },
+  "packageManager": "yarn@4.0.0-rc.51",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}

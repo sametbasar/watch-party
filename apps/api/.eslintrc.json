@@ -1,0 +1,18 @@
+{
+  "extends": ["next/core-web-vitals"],
+  "settings": {
+    "import/internal-regex": "^common|^lib/|^modules/|^pages/"
+  },
+  "rules": {
+    "no-console": [
+      "error",
+      {
+        "allow": ["warn", "info", "error"]
+      }
+    ],
+    "arrow-body-style": 0,
+    "react/jsx-filename-extension": "off",
+    "react/destructuring-assignment": 0,
+    "import/no-named-as-default": "off"
+  }
+}
