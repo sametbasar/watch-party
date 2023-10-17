@@ -7,7 +7,7 @@ import { SOCKET_PATH } from '~/common/constants';
 export const socket = io(SOCKET_PATH, {
   path: '/api/socketio',
   extraHeaders: {
-    '': '',
+    'Access-Control-Allow-Origin': '*',
   },
 });
 
