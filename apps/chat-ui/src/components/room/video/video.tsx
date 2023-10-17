@@ -3,6 +3,7 @@ import { MicrophoneIcon } from '@heroicons/react/24/outline';
 import { Nullable } from '~/common/types';
 
 import { ControlBar } from './_partials';
+import ActiveSpeaker from './_partials/active-speaker';
 import VideoPlug from './_partials/video-plug';
 
 export const VideoContainer = ({
@@ -20,11 +21,13 @@ export const VideoContainer = ({
     <div key={id} className="group relative h-full w-full flex-1">
       {!visible && <VideoPlug username={username} />}
       <div className={`${!visible ? 'hidden' : ''}`}>{children}</div>
-      {muted && (
+      {muted ? (
         <div className="absolute right-2 top-2">
           <div className="absolute left-3 top-3 h-0.5 w-full -translate-x-1/2 -rotate-45 rounded-lg bg-red-600" />
           <MicrophoneIcon className="stroke-red-600" width={25} height={25} />
         </div>
+      ) : (
+        <ActiveSpeaker stream={stream as Nullable<MediaStream>} />
       )}
       {isMe && (
         <ControlBar

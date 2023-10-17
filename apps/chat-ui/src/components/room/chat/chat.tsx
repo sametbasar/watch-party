@@ -1,11 +1,15 @@
+/* eslint-disable no-prototype-builtins */
 'use client';
 
-import { useContext, useEffect, useState } from 'react';
+import { Reducer, useContext, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 
 import { useParams } from 'next/navigation';
+import { VList } from 'virtua';
 
+import { User } from '~/common/types';
 import { getLocalStorage } from '~/common/utils/local-storage';
 import { BottomBar } from '~/components/bottom-bar';
+import { ChatMessagesContext, IActionMessage, chatMessagesReducer } from '~/stores/chat-messages';
 import { SocketContext } from '~/stores/socket';
 import { type IUser, UserContext } from '~/stores/user';
 
@@ -16,27 +20,45 @@ import { type Message } from './types';
 import { Stream } from '../video/stream';
 
 export const Chat = () => {
+  const chatScrollRef = useRef<HTMLDivElement>(null);
   const params = useParams();
   const { state, dispatch } = useContext(UserContext);
+  const [messages, chatDispatch] = useReducer<Reducer<Message[], IActionMessage>>(chatMessagesReducer, []);
   const socket = useContext(SocketContext);
 
   const [loading, setIsLoading] = useState<boolean>(true);
   const [isUser, setIsUser] = useState<boolean>(false);
-  const [messages, setMessages] = useState<Message[]>([] as Message[]);
 
-  socket.on('user:joined', (user: IUser) => {
-    if (user.name && !user.visible)
-      setMessages([...messages, { type: 'info', username: user.name, message: `${user.name} joined to party` }]);
-    else if (user.name && user.visible)
-      setMessages([
-        ...messages,
-        { type: 'info', username: user.name, message: `${user.name} activated the camera chat` },
-      ]);
-  });
+  useEffect(() => {
+    socket.on('user:joined', (user: IUser) => {
+      if (user.name && !user.hasOwnProperty('visible'))
+        chatDispatch({
+          type: 'SET_MESSAGE',
+          payload: { type: 'info', username: user.name, message: `${user.name} joined to party` },
+        });
+      else if (user.hasOwnProperty('visible') && user.visible)
+        chatDispatch({
+          type: 'SET_MESSAGE',
+          payload: { type: 'info', username: user.name, message: `${user.name} activated the camera chat` },
+        });
+    });
 
-  socket.on('user:left', (user: string) => {
-    if (user !== '') setMessages([...messages, { type: 'info', username: user, message: `${user} leaved to party` }]);
-  });
+    socket.on('user:left', (user: string) => {
+      if (user !== '')
+        chatDispatch({
+          type: 'SET_MESSAGE',
+          payload: { type: 'info', username: user, message: `${user} leaved to party` },
+        });
+    });
+
+    socket.on('chat:get', ({ message, user }: { message: string; user: User }) => {
+      if (!user.hasOwnProperty('visible'))
+        chatDispatch({
+          type: 'SET_MESSAGE',
+          payload: { type: 'message', username: user.name, message },
+        });
+    });
+  }, [socket]);
 
   const showChat = () => {
     setIsLoading(false);
@@ -59,6 +81,15 @@ export const Chat = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const messageElements = useMemo(
+    () => messages.map((d, i) => <MessageBox key={`message-${i}`} message={d} />),
+    [messages]
+  );
+
+  useEffect(() => {
+    chatScrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  }, [messages]);
+
   useEffect(() => {
     if (!loading && isUser)
       socket.emit('room:join', {
@@ -70,20 +101,21 @@ export const Chat = () => {
   if (loading) return <ChatSkeleton />;
 
   return (
-    <div className="flex w-full flex-1 flex-col items-center justify-end p-5">
-      {state.cameraChat && state.stream && (
-        <div className="w-full">
-          <Stream stream={state.stream} />
-        </div>
-      )}
-      <div className="mb-2 flex h-[550px] w-full flex-col justify-end overflow-y-scroll">
-        {messages.map((message, index) => {
-          return <MessageBox key={`message-${index}`} message={message} />;
-        })}
-      </div>
+    <ChatMessagesContext.Provider value={{ messages, chatDispatch }}>
+      <div className="flex w-full flex-1 flex-col items-center justify-end p-5">
+        {state.cameraChat && state.stream && (
+          <div className="w-full flex-1">
+            <Stream stream={state.stream} />
+          </div>
+        )}
+        <VList reverse className="flex flex-col overflow-y-scroll">
+          {messageElements}
+          <div className="h-10" ref={chatScrollRef} />
+        </VList>
 
-      {!isUser && <UserDialog setIsUser={setIsUser} />}
-      <BottomBar />
-    </div>
+        {!isUser && <UserDialog setIsUser={setIsUser} />}
+        <BottomBar />
+      </div>
+    </ChatMessagesContext.Provider>
   );
 };

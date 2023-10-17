@@ -14,7 +14,6 @@ export const config = {
 export default async (_req: NextApiRequest, res: NextApiResponseServerIO) => {
   if (!res.socket.server.io) {
     console.log('New Socket.io server...')
-    // adapt Next's net Server to http Server
     const httpServer: NetServer = res.socket.server as any
     const io = new ServerIO(httpServer, {
       path: '/api/socketio',
@@ -25,12 +24,6 @@ export default async (_req: NextApiRequest, res: NextApiResponseServerIO) => {
 
     io.on('connection', socket => {
       socket.on('room:join', ({ room, user }: any) => {
-        // console.table({
-        //   'room-id': room,
-        //   'used-id': user.id,
-        //   'user-name': user.name,
-        // })
-
         socket.join(room)
 
         socket.to(room).emit('user:joined', user)
@@ -52,16 +45,17 @@ export default async (_req: NextApiRequest, res: NextApiResponseServerIO) => {
         })
 
         socket.on('user:toggle-video', (userId: string) => {
-          console.log(userId, 'toggle-video')
           socket.to(room).emit('user:toggled-video', userId)
         })
 
-        socket.on('chat:post', (message: string) => {
-          socket.to(room).emit('chat:get', message)
-        })
+        socket.on(
+          'chat:post',
+          ({ username, message }: { username: string; message: string }) => {
+            socket.to(room).emit('chat:get', { username, message, user })
+          }
+        )
       })
     })
-    // append SocketIO server to Next.js socket server response
     res.socket.server.io = io
   }
   res.end()

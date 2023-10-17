@@ -1,4 +1,6 @@
-import { SidebarClose, UserList } from './_partials';
+import { Button } from '@radix-ui/themes';
+
+import { SidebarClose } from './_partials';
 import { Logo } from '../logo';
 
 const Header = () => {
@@ -8,7 +10,9 @@ const Header = () => {
         <SidebarClose />
         <Logo />
       </div>
-      <UserList />
+      <Button color="red" variant="soft">
+        Exit Party
+      </Button>
     </div>
   );
 };

@@ -33,7 +33,7 @@ export default function MyStream({
       toggleVideo={toggleVideo}
       isMe
     >
-      <PeerVideo stream={stream} name={MYSELF} isMe={true} />
+      <PeerVideo stream={stream} name={MYSELF} muted={muted} isMe={true} />
     </VideoContainer>
   );
 }

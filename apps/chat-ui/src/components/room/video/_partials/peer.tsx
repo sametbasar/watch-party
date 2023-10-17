@@ -3,10 +3,12 @@ import { type FC, memo } from 'react';
 interface Props {
   stream: MediaStream;
   name: string;
+
+  muted?: boolean;
   isMe?: boolean;
 }
 
-const PeerVideo: FC<Props> = ({ stream, name, isMe }) => {
+const PeerVideo: FC<Props> = ({ stream, muted, name, isMe }) => {
   return (
     <div className="relative">
       <video
