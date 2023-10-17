@@ -1,6 +1,6 @@
 export const ROOM_NAME = 'watch-party';
 export const MYSELF = 'You';
-export const SOCKET_PATH = 'http://localhost:8000';
+export const SOCKET_PATH = 'https://watch-party-api.vercel.app';
 // export const TOAST_PROPS: ToastContainerProps = {
 //   position: 'bottom-left',
 //   theme: 'dark',
