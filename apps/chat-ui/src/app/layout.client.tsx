@@ -2,18 +2,19 @@
 
 import { type FC, Fragment } from 'react';
 
-import { Providers } from '~/components/providers';
-
 type Props = {
   children: React.ReactNode;
 };
 
 const LayoutClient: FC<Props> = ({ children }) => {
-  return (
-    <Fragment>
-      <Providers>{children} </Providers>
-    </Fragment>
-  );
+  // io('https://watch-party-api.vercel.app/api/socketio', {
+  //   path: '/api/socketio',
+  //   extraHeaders: {
+  //     'Access-Control-Allow-Origin': '*',
+  //   },
+  // });
+
+  return <Fragment>Samet</Fragment>;
 };
 
 export default LayoutClient;
