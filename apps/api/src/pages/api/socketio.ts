@@ -19,7 +19,6 @@ export default async (_req: NextApiRequest, res: NextApiResponseServerIO) => {
       path: '/api/socketio',
       cors: {
         origin: '*',
-        preflightContinue: true,
       },
     })
 
