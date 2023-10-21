@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
-    "@radix-ui/themes": "^1.1.2",
     "@hookform/resolvers": "^3.3.2",
+    "@radix-ui/themes": "^1.1.2",
     "nanoid": "^5.0.1",
     "next": "latest",
     "peerjs": "^1.5.1",
@@ -19,14 +19,14 @@
     "react-dom": "latest",
     "react-hook-form": "^7.47.0",
     "react-toastify": "^9.1.3",
+    "socket.io-client": "^4.7.2",
     "virtua": "^0.12.0",
-    "yup": "^1.3.2",
-    "socket.io-client": "^4.7.2"
+    "yup": "^1.3.2"
   },
   "devDependencies": {
-    "@types/socket.io": "^3.0.2",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "@types/socket.io": "^3.0.2",
     "@typescript-eslint/eslint-plugin": "^6.7.3",
     "@typescript-eslint/parser": "^6.7.3",
     "autoprefixer": "latest",

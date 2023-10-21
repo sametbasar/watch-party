@@ -15,8 +15,9 @@ const PeerVideo: FC<Props> = ({ stream, muted, name, isMe }) => {
         ref={(node) => {
           if (node) node.srcObject = stream;
         }}
+        playsInline
         autoPlay
-        muted={isMe}
+        muted={muted || isMe}
         className="aspect-video h-full w-full -scale-x-100 rounded-lg object-cover"
       />
 
