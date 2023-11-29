@@ -1,21 +1,25 @@
 'use client';
 
-import { type FC, FormEvent, useContext, useState } from 'react';
+import { type FC, FormEvent, useContext, useState, useLayoutEffect } from 'react';
 
 import { UserIcon } from '@heroicons/react/24/outline';
 import { Button, TextField } from '@radix-ui/themes';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'react-toastify';
 
 import { createRoomId } from '~/common/utils';
-import { setLocalStorage } from '~/common/utils/local-storage';
-import { UserContext } from '~/stores/user';
+import { getLocalStorage, setLocalStorage } from '~/common/utils/local-storage';
+import { Loader } from '~/components/ui/loader/loader';
+import { IUser, UserContext } from '~/stores/user';
 
 interface Props {
   onSubmit?: () => void;
 }
 export const UserLogin: FC<Props> = ({ onSubmit }) => {
+  const [pageLoading, setPageLoading] = useState(true);
   const router = useRouter();
+  const searchParams = useSearchParams();
+
   const { dispatch } = useContext(UserContext);
   const [name, setName] = useState('');
 
@@ -32,8 +36,26 @@ export const UserLogin: FC<Props> = ({ onSubmit }) => {
       return;
     }
     toast('Saved username, Redirecting to chat', { type: 'info' });
-    router.push(`/room/${createRoomId()}`);
+    const roomId = searchParams.get('wid') ?? createRoomId();
+    router.push(`/room/${roomId}`);
   };
+
+  const checkUserExistLocalStroage = () => {
+    const stringUser = getLocalStorage('watch.user');
+    const user: IUser | null = (stringUser && JSON.parse(stringUser ?? '')) ?? null;
+    if (user && user.name) {
+      const roomId = searchParams.get('wid') ?? createRoomId();
+      router.push(`/room/${roomId}`);
+    } else setPageLoading(false);
+  };
+
+  useLayoutEffect(() => {
+    checkUserExistLocalStroage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  if (pageLoading) return <Loader />;
+
   return (
     <form className="flex w-full max-w-sm flex-col gap-5" onSubmit={handleSubmit}>
       <TextField.Root>

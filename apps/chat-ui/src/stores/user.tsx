@@ -16,6 +16,7 @@ export type IUser = {
   stream?: Nullable<MediaStream>;
   visible?: boolean;
   muted?: boolean;
+  movieControl?: boolean;
 };
 
 export type IAction = {

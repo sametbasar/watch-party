@@ -6,7 +6,6 @@ import { UsersStateContext } from '~/contexts/users-settings';
 
 export default function OtherStreams() {
   const { streams, isMuted, isHidden, names } = useContext(UsersStateContext);
-  console.log(streams);
 
   return (
     <>

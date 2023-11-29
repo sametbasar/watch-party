@@ -19,7 +19,7 @@ export const VideoControl = () => {
           />
         </div>
       </Dialog.Trigger>
-      <Dialog.Content style={{ maxWidth: 450, minHeight: 530 }}>
+      <Dialog.Content style={{ maxWidth: '90%', minHeight: 530 }}>
         <Dialog.Title>Setup your Camera/Mic</Dialog.Title>
         <SetupCamera setModalClose={setOpenModal} />
       </Dialog.Content>

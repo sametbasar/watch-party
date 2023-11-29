@@ -8,10 +8,8 @@ interface Props {
 
 export const MessageBox: FC<Props> = ({ message }) => {
   return (
-    <div className="flex flex-wrap items-center gap-2 rounded-lg p-3 transition-all duration-300 hover:bg-gray-600">
-      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#808080]">
-        <span className="uppercase">{message?.username?.slice(0, 1)}</span>
-      </div>
+    <div className="flex flex-col flex-wrap rounded-lg p-3 transition-all duration-300 hover:bg-gray-600">
+      <p className="text-xs font-semibold text-gray-400">{message.username}</p>
       <p className="text-sm text-gray-100">{message.message}</p>
     </div>
   );

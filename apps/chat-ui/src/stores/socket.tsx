@@ -9,6 +9,7 @@ export const socket = io(SOCKET_PATH, {
   extraHeaders: {
     'Access-Control-Allow-Origin': '*',
   },
+  reconnectionDelay: 10000,
 });
 
 export const SocketContext = createContext(socket);

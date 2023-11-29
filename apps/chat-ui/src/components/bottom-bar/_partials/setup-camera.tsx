@@ -72,12 +72,12 @@ export const SetupCamera: FC<Props> = ({ setModalClose }) => {
           </Fragment>
         )}
 
-        <div className="flex justify-end gap-2">
-          <Button variant="outline" size="3" onClick={handleClose}>
-            Cancel
-          </Button>
+        <div className="flex flex-col justify-end gap-2">
           <Button size="3" onClick={handleSave}>
             Save Changes
+          </Button>
+          <Button variant="outline" size="3" onClick={handleClose}>
+            Cancel
           </Button>
         </div>
       </div>

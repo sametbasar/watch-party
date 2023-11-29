@@ -102,9 +102,9 @@ export const Chat = () => {
 
   return (
     <ChatMessagesContext.Provider value={{ messages, chatDispatch }}>
-      <div className="flex w-full flex-1 flex-col items-center justify-end p-5">
+      <div className="flex w-full flex-1 flex-col items-center justify-end">
         {state.cameraChat && state.stream && (
-          <div className="w-full flex-1">
+          <div className="w-full flex-1 pb-3">
             <Stream stream={state.stream} />
           </div>
         )}
