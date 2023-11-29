@@ -1,0 +1,2 @@
+.btn{max-width:200px;min-width:200px;height:50px;font-size:18px;font-weight:600;border-bottom:1px solid;display:flex;align-items:center;justify-content:center}.btn.primary{background-color:#2898fe;border-color:#2898fe;box-shadow:0 0 70px 0 rgba(40,152,254,.4509803922);border-radius:10px;color:#f0f0f0;transition:background,color .5s ease;cursor:pointer}.btn.primary:hover{background-color:#f0f0f0;border-color:#2898fe;color:#2898fe}
+/*# sourceMappingURL=buttons.min.css.map */
