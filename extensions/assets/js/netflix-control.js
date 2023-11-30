@@ -28,7 +28,7 @@ const netflixContent = {
     netflixContent.getUserInfo();
   },
   joinSocket: () => {
-    const socket = io("http://localhost:8080", {
+    const socket = io("https://watch-party-api.onrender.com", {
       reconnectionDelay: 10000,
     });
     window.watchparty.socket = socket;

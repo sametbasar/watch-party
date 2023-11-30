@@ -19,7 +19,7 @@ const watchParty = {
 
     body.className = "watch-party";
     const roomId = watchParty.getRoomId();
-    const URL = `http://localhost:3000?${WP_ENUMS.ROOM_ID}=${roomId}`;
+    const URL = `https://watch-party-chat-ui.vercel.app?${WP_ENUMS.ROOM_ID}=${roomId}`;
     body.innerHTML = `<iframe style="display: block;" id="wpChatFrame" allow="autoplay; clipboard-read; clipboard-write; payment; camera; microphone;" src="${URL}"></iframe>`;
 
     const netflixContainer = document.querySelector("[data-uia=watch-video]");
